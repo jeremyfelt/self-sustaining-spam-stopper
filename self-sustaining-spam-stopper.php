@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:     Self-Sustaining Spam Stopper
- * Plugin URI:      PLUGIN SITE HERE
+ * Plugin URI:      https://github.com/jeremyfelt/self-sustaining-spam-stopper/
  * Description:     Stop spam without relying on an external service.
  * Author:          Jeremy Felt
  * Author URI:      https://jeremyfelt.com
