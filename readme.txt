@@ -1,4 +1,4 @@
-=== Self Sustaining Spam Stopper ===
+=== Self-Sustaining Spam Stopper ===
 Contributors: jeremyfelt
 Tags: comments, spam
 Requires at least: 5.2
