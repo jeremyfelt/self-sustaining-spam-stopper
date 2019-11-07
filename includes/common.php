@@ -50,7 +50,7 @@ function get_combo_word_list() {
 		'women',
 		'online',
 		'local',
-		'city',
+		'city'
 	);
 }
 
@@ -62,7 +62,7 @@ function get_combo_word_list() {
  * @return bool True if present. False if not.
  */
 function contains_sex_combo( $text ) {
-	if ( false === strpos( $text, 'sex' ) ) {
+	if (false === strpos( $text, 'sex' ) ) {
 		return false;
 	}
 
