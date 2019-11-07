@@ -8,6 +8,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: PHPCodeSniffer
-      uses: rtCamp/action-phpcs-inspection@v1.0.0
-
+    - uses: actions/checkout@v1
+    - uses: rtCamp/action-phpcs-code-review@master
+      env:
+        GH_BOT_TOKEN: ${{ secrets.GH_BOT_TOKEN }}
