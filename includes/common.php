@@ -19,6 +19,7 @@ function get_spam_word_list() {
 		'cialis',
 		'albendazole',
 		'mining crypto',
+		'[url=', // Nobody is really trying to use this when commenting.
 	);
 }
 
