@@ -43,10 +43,6 @@ function check_form_submission( $spam ) {
 		return true;
 	}
 
-	if ( \SSSS\Common\contains_sex_combo( $form_content ) ) {
-		return true;
-	}
-
 	return $spam;
 }
 

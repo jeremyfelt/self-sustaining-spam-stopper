@@ -15,44 +15,74 @@ namespace SSSS\Common;
  */
 function get_spam_word_list() {
 	return array(
+		// Drugs, pharmaceutical
 		'viagra',
 		'cialis',
 		'albendazole',
 		'butalbital',
+
+		// Crypto, not cryptography.
 		'mining crypto',
-		'[url=', // Nobody is really trying to use this when commenting.
-		'dating site', // I mean, maybe, but very unlikely to be real.
-		'the false prophet',   // Long missives on religion
-		'number of the beast', // See above.
-		'mark of the beast',   // See above.
+
+		// Other forum patterns.
+		'[url=', // WP doesn't expect this style.
+
+		// Long misives on religion.
+		'the false prophet',
+		'number of the beast',
+		'mark of the beast',
+
+		// Maybe take this out if your site is about dating?
+		'casual dating site',
+		'adult dating site',
+		'senior dating site',
+		'adultdating',
+
+		// Was I targetted by wig spam because I'm bald?
 		'cheap wigs',
+
+		// Of course...
 		'hardcore galleries',
-		'hardcore photos',
+		'hardcore gallery',
+		'hardcore photo',   // Catches plural as well.
+		'hardcore picture', // Catches plural as well.
+		'online sex',
+		'want sex in',
+		'want sex right',
+		'for sex in',
+		'for sex right',
+		' sex online', // Add a space just in case someone is talking about Sussex?
+		' sex toy',
+		' sex shop',
 		'sexy photo galleries',
+		'sexy photo gallery',
+		'sexy galleries',
+		'sexy gallery',
 		'sexy porn',
 		'free porn',
-		'porn clips',
+		'porn clip',
 		'porn stream',
 		'porn tube',
 		'porn torrent',
-		'porn pictures',
+		'porn video',
+		'porn picture',
 		'porn galleries',
+		'porn gallery',
+
+		// Gambling!
 		'online sports betting',
 		'online casino',
 
+		// Uninteresting.
+		'bеst 100 freе',
+
 		// Some URLs.
-		'sellaccs.net', // Selling "aged" Twitter accounts.
-		'voda-da.by', // A bunch of cryllic characters and URLs.
+		'sellaccs.net',      // Selling "aged" Twitter accounts.
+		'voda-da.by',        // A bunch of cryllic characters and URLs.
 		'cravefreebies.com', // Free Stuff!
-		'goo-gl.su', // Imagine where that might go...
+		'goo-gl.su',         // Imagine where that might go...
 		'tiny.cc',
 		'jackpotbetonline.com',
-
-		'.ru/member', // Russian forums?
-		'.ru/forum',
-		'.ru/users',
-		'.ru/blog.php',
-
 		'doodlekit.com',
 		'mystrikingly.com',
 		'dvddiscountshop.com',
@@ -75,6 +105,12 @@ function get_spam_word_list() {
 		'порно',       // porn
 		'проститутки', // prostitute
 		'деньги',      // money
+
+		// Russian forums?
+		'.ru/member',
+		'.ru/forum',
+		'.ru/users',
+		'.ru/blog.php',
 	);
 }
 
@@ -88,46 +124,6 @@ function get_spam_word_list() {
 function contains_mg( $text ) {
 	if ( 1 === preg_match( '/(\d+\s?mg)/', $text ) ) {
 		return true;
-	}
-
-	return false;
-}
-
-/**
- * Provide a list of words to look for in combination with "sex"
- * to determine if content is spam.
- *
- * @return array A list of words.
- */
-function get_combo_word_list() {
-	return array(
-		'girl',
-		'woman',
-		'women',
-		'online',
-		'local',
-		'city',
-		'shop',
-		'toy',
-	);
-}
-
-/**
- * Determine if a combination of words with "sex" is present in
- * a block of text.
- *
- * @param string $text The comment text.
- * @return bool True if present. False if not.
- */
-function contains_sex_combo( $text ) {
-	if ( false === strpos( $text, 'sex' ) ) {
-		return false;
-	}
-
-	foreach ( get_combo_word_list() as $word ) {
-		if ( false !== strpos( $text, $word ) ) {
-			return true;
-		}
 	}
 
 	return false;
