@@ -19,6 +19,28 @@ function get_spam_word_list() {
 		'cialis',
 		'albendazole',
 		'mining crypto',
+		'[url=', // Nobody is really trying to use this when commenting.
+		'dating site', // I mean, maybe, but very unlikely to be real.
+		'the false prophet',   // Long missives on religion
+		'number of the beast', // See above.
+		'mark of the beast',   // See above.
+		'cheap wigs',
+
+		// Some URLs.
+		'sellaccs.net', // Selling "aged" Twitter accounts.
+		'voda-da.by', // A bunch of cryllic characters and URLs.
+		'cravefreebies.com', // Free Stuff!
+
+		// Where do they come up with these?
+		'hairstylesvip',
+		'hairstyleslook',
+		'hairstylescool',
+
+		'SaveTheOA', // This was a heavy spam campaign for a while.
+
+		// S E Oh no.
+		'check here for the best seo services',
+		'seowebsitetrafficnet'
 	);
 }
 
@@ -51,6 +73,8 @@ function get_combo_word_list() {
 		'online',
 		'local',
 		'city',
+		'shop',
+		'toy',
 	);
 }
 
