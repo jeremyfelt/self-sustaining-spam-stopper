@@ -69,9 +69,5 @@ function get_comment_status( $approved, $commentdata ) {
 		return 'spam';
 	}
 
-	if ( \SSSS\Common\contains_sex_combo( $comment_content ) ) {
-		return 'spam';
-	}
-
 	return $approved;
 }
