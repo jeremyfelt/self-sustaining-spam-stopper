@@ -27,7 +27,7 @@ function check_form_submission( $spam ) {
 		return false;
 	}
 
-	$form_content = strtolower( $params['content'] );
+	$form_content = mb_strtolower( $params['content'] );
 
 	// There are a few words that can always be considered spam.
 	foreach ( \SSSS\Common\get_spam_word_list() as $word ) {

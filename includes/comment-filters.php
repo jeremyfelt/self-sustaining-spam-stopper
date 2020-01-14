@@ -53,7 +53,7 @@ function get_comment_status( $approved, $commentdata ) {
 	}
 
 	$comment_content = implode( ' ', $commentdata );
-	$comment_content = strtolower( $comment_content );
+	$comment_content = mb_strtolower( $comment_content );
 
 	// There are a few words that can always be considered spam.
 	foreach ( \SSSS\Common\get_spam_word_list() as $word ) {
