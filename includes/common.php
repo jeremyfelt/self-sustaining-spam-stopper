@@ -20,6 +20,15 @@ function get_spam_word_list() {
 		'albendazole',
 		'mining crypto',
 		'[url=', // Nobody is really trying to use this when commenting.
+		'dating site', // I mean, maybe, but very unlikely to be real.
+		'the false prophet',   // Long missives on religion
+		'number of the beast', // See above.
+		'mark of the beast',   // See above.
+		'sellaccs.net', // Selling "aged" Twitter accounts.
+		'cheap wigs',
+		'voda-da.by', // A bunch of cryllic characters and URLs.
+		'cravefreebies.com', // Free Stuff!
+
 	);
 }
 
@@ -52,6 +61,8 @@ function get_combo_word_list() {
 		'online',
 		'local',
 		'city',
+		'shop',
+		'toy',
 	);
 }
 
