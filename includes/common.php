@@ -105,6 +105,8 @@ function get_spam_word_list() {
 		'порно',       // porn
 		'проститутки', // prostitute
 		'деньги',      // money
+		'заработке',   // income
+		'развлекушки', // fun
 
 		// Russian forums?
 		'.ru/member',
