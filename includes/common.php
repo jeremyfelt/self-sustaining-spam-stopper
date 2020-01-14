@@ -112,6 +112,7 @@ function get_spam_word_list() {
 		'.ru/member',
 		'.ru/forum',
 		'.ru/users',
+		'.ru/cms',
 		'.ru/blog.php',
 	);
 }
