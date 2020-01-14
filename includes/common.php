@@ -24,11 +24,23 @@ function get_spam_word_list() {
 		'the false prophet',   // Long missives on religion
 		'number of the beast', // See above.
 		'mark of the beast',   // See above.
-		'sellaccs.net', // Selling "aged" Twitter accounts.
 		'cheap wigs',
+
+		// Some URLs.
+		'sellaccs.net', // Selling "aged" Twitter accounts.
 		'voda-da.by', // A bunch of cryllic characters and URLs.
 		'cravefreebies.com', // Free Stuff!
 
+		// Where do they come up with these?
+		'hairstylesvip',
+		'hairstyleslook',
+		'hairstylescool',
+
+		'SaveTheOA', // This was a heavy spam campaign for a while.
+
+		// S E Oh no.
+		'check here for the best seo services',
+		'seowebsitetrafficnet'
 	);
 }
 
