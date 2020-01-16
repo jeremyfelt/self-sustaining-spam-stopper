@@ -111,7 +111,7 @@ function get_spam_word_list() {
 		// Russian forums?
 		'.ru/member',
 		'.ru/forum',
-		'.ru/users',
+		'.ru/user',
 		'.ru/cms',
 		'.ru/blog.php',
 	);
