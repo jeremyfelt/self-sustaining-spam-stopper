@@ -83,7 +83,8 @@ function get_comment_status( $approved, $commentdata ) {
 }
 
 /**
- * Determine if comment content ends purely in URLs.
+ * Determine if comment content ends in more than 2 URLs or
+ * if it ends in 2 URLs that are exactly the same.
  *
  * @param string $comment_content The comment content.
  * @return bool True if it ends in URLs. False if not.
@@ -98,10 +99,20 @@ function ends_in_urls( $comment_content ) {
 
 	$urls = 0;
 
+	$last = false;
+	$next = false;
+
 	// Count how many lines at the end of content start with http.
 	while ( $content = array_pop( $contents ) ) {
 		if ( 0 === mb_strpos( $content, 'http' ) ) {
 			$urls++;
+
+			if ( false === $last ) {
+				$last = $content;
+			} else if ( false === $next ) {
+				$next = $content;
+			}
+
 			continue;
 		}
 
@@ -110,6 +121,10 @@ function ends_in_urls( $comment_content ) {
 
 	// If more than 2 URLs are used to end a comment, treat it as spam.
 	if ( 2 < $urls ) {
+		return true;
+	}
+
+	if ( 2 === $urls && $last === $next ) {
 		return true;
 	}
 
