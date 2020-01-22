@@ -64,10 +64,93 @@ function get_comment_status( $approved, $commentdata ) {
 		}
 	}
 
+	// The comment ends in multiple URLs.
+	if ( ends_in_urls( $comment_content ) ) {
+		return 'spam';
+	}
+
+	// The comment contains at least 6 bare URLs.
+	if ( 6 <= count_raw_urls( $comment_content ) ) {
+		return 'spam';
+	}
+
 	// A hazard guess that most sites don't deal with doses.
 	if ( \SSSS\Common\contains_mg( $comment_content ) ) {
 		return 'spam';
 	}
 
 	return $approved;
+}
+
+/**
+ * Determine if comment content ends in more than 2 URLs or
+ * if it ends in 2 URLs that are exactly the same.
+ *
+ * @param string $comment_content The comment content.
+ * @return bool True if it ends in URLs. False if not.
+ */
+function ends_in_urls( $comment_content ) {
+
+	// Only check the first 500 characters.
+	$comment_content = substr( $comment_content, 0, 500 );
+
+	// Break apart content into an array on any whitespace.
+	$contents = preg_split('/\s+/', $comment_content, -1, PREG_SPLIT_NO_EMPTY);
+
+	$urls = 0;
+
+	$last = false;
+	$next = false;
+
+	// Count how many lines at the end of content start with http.
+	while ( $content = array_pop( $contents ) ) {
+		if ( 0 === mb_strpos( $content, 'http' ) ) {
+			$urls++;
+
+			if ( false === $last ) {
+				$last = $content;
+			} else if ( false === $next ) {
+				$next = $content;
+			}
+
+			continue;
+		}
+
+		break;
+	}
+
+	// If more than 2 URLs are used to end a comment, treat it as spam.
+	if ( 2 < $urls ) {
+		return true;
+	}
+
+	if ( 2 === $urls && $last === $next ) {
+		return true;
+	}
+
+	return false;
+}
+
+/**
+ * Count the number of bare URLs used in content with no markup surrounding
+ * them to indicate that context is given.
+ *
+ * @param string $comment_content The comment content.
+ * @return int The number of raw URLs, with no markup.
+ */
+function count_raw_urls( $comment_content ) {
+
+	// Break apart content into an array on any whitespace.
+	$contents = preg_split('/\s+/', $comment_content, -1, PREG_SPLIT_NO_EMPTY);
+
+	$urls = 0;
+
+	// Count how many lines at the end of content start with http.
+	while ( $content = array_pop( $contents ) ) {
+		if ( 0 === mb_strpos( $content, 'http' ) ) {
+			$urls++;
+		}
+	}
+
+	return $urls;
 }

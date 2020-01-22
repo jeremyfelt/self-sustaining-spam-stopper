@@ -20,6 +20,8 @@ function get_spam_word_list() {
 		'cialis',
 		'albendazole',
 		'butalbital',
+		'diflucan',
+		'anabolic steroids',
 
 		// Crypto, not cryptography.
 		'mining crypto',
@@ -68,6 +70,8 @@ function get_spam_word_list() {
 		'porn picture',
 		'porn galleries',
 		'porn gallery',
+		'russian escort',
+		'russianescort',
 
 		// Gambling!
 		'online sports betting',
