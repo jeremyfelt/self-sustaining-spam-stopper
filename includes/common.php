@@ -20,6 +20,8 @@ function get_spam_word_list() {
 		'cialis',
 		'albendazole',
 		'butalbital',
+		'diflucan',
+		'anabolic steroids',
 
 		// Crypto, not cryptography.
 		'mining crypto',
