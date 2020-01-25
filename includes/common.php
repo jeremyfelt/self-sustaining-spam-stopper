@@ -182,9 +182,9 @@ function contains_mg( $text ) {
  */
 function transliterate_content( $content ) {
     $transliteration_data = array(
-		'o' => 'o',
-		'e' => 'e',
-		'х' => 'x',
+		'о' => 'o', // 1086
+		'е' => 'e', // 1077
+		'х' => 'x', // 1093
 	);
 
     return str_replace(
