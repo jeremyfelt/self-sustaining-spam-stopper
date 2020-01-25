@@ -124,6 +124,7 @@ function get_spam_word_list() {
 		'деньги',      // money
 		'заработке',   // income
 		'развлекушки', // fun
+		'молодая',     // young
 
 		// Russian forums?
 		'.ru/member',
