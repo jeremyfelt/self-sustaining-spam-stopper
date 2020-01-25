@@ -29,13 +29,8 @@ function check_form_submission( $spam ) {
 
 	$form_content = mb_strtolower( $params['content'] );
 
-	// There are a few words that can always be considered spam.
-	foreach ( \SSSS\Common\get_spam_word_list() as $word ) {
-
-		// Anything containing a blacklisted word is marked as spam.
-		if ( false !== strpos( $form_content, $word ) ) {
-			return true;
-		}
+	if ( \SSSS\Common\contains_spam_word( $form_content ) ) {
+		return true;
 	}
 
 	// A hazard guess that most sites don't deal with doses.

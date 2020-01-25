@@ -41,6 +41,8 @@ function get_spam_word_list() {
 		'adult dating site',
 		'senior dating site',
 		'adultdating',
+		'dating for sex',
+		'sex dating',
 
 		// Was I targetted by wig spam because I'm bald?
 		'cheap wigs',
@@ -58,8 +60,13 @@ function get_spam_word_list() {
 		' sex online', // Add a space just in case someone is talking about Sussex?
 		' sex toy',
 		' sex shop',
+		'hot photo galleries',
+		'hot photo gallery',
+		'hot galleries',
+		'hot gallery',
 		'sexy photo galleries',
 		'sexy photo gallery',
+		'sexy picture',
 		'sexy galleries',
 		'sexy gallery',
 		'sexy porn',
@@ -68,10 +75,14 @@ function get_spam_word_list() {
 		'porn stream',
 		'porn tube',
 		'porn torrent',
+		'porn mpegs',
 		'porn video',
+		'porn xvideo',
 		'porn picture',
+		'porn pics',
 		'porn galleries',
 		'porn gallery',
+		'porn website',
 		'russian escort',
 		'russianescort',
 
@@ -124,6 +135,30 @@ function get_spam_word_list() {
 }
 
 /**
+ * Determine if content contains a word or string classifed as
+ * spammy.
+ *
+ * @param string $content Content to check.
+ * @return bool True if spam. False if not.
+ */
+function contains_spam_word( $content ) {
+
+	// Remove confusing unicode characters.
+	$content = transliterate_content( $content );
+
+	// There are a few words that can always be considered spam.
+	foreach ( get_spam_word_list() as $word ) {
+
+		// Anything containing a blacklisted word is marked as spam.
+		if ( false !== mb_strpos( $content, $word ) ) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
+/**
  * Determine if text contains "mg" with or without a space in front
  * of it and with digits immediately in front of it.
  *
@@ -136,4 +171,25 @@ function contains_mg( $text ) {
 	}
 
 	return false;
+}
+
+/**
+ * Replace confusing unicode characters with their less confusing or
+ * more expected equivalents.
+ *
+ * @param string $content The content to transliterate.
+ * @return string The transliterated content.
+ */
+function transliterate_content( $content ) {
+    $transliteration_data = array(
+		'o' => 'o',
+		'e' => 'e',
+		'х' => 'x',
+	);
+
+    return str_replace(
+		array_keys( $transliteration_data ),
+		array_values( $transliteration_data ),
+		$content
+	);
 }
