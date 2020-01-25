@@ -24,6 +24,8 @@ function get_spam_word_list() {
 		'anabolic steroids',
 		'prednisone',
 		'sildenafil',
+		'drug prices',
+		'online pharmacy',
 
 		// Crypto, not cryptography.
 		'mining crypto',
@@ -124,6 +126,8 @@ function get_spam_word_list() {
 		'деньги',      // money
 		'заработке',   // income
 		'развлекушки', // fun
+		'молодая',     // young
+		'медицинские', // medical
 
 		// Russian forums?
 		'.ru/member',
@@ -192,4 +196,28 @@ function transliterate_content( $content ) {
 		array_values( $transliteration_data ),
 		$content
 	);
+}
+
+/**
+ * Count the number of bare URLs used in content with no markup surrounding
+ * them to indicate that context is given.
+ *
+ * @param string $comment_content The comment content.
+ * @return int The number of raw URLs, with no markup.
+ */
+function count_raw_urls( $comment_content ) {
+
+	// Break apart content into an array on any whitespace.
+	$contents = preg_split('/\s+/', $comment_content, -1, PREG_SPLIT_NO_EMPTY);
+
+	$urls = 0;
+
+	// Count how many lines at the end of content start with http.
+	while ( $content = array_pop( $contents ) ) {
+		if ( 0 === mb_strpos( $content, 'http' ) ) {
+			$urls++;
+		}
+	}
+
+	return $urls;
 }

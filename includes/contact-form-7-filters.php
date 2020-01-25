@@ -38,6 +38,11 @@ function check_form_submission( $spam ) {
 		return true;
 	}
 
+	// The comment contains at least 6 bare URLs.
+	if ( 10 <= \SSSS\Common\count_raw_urls( $form_content ) ) {
+		return 'spam';
+	}
+
 	return $spam;
 }
 

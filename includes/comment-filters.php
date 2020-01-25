@@ -52,7 +52,12 @@ function get_comment_status( $approved, $commentdata ) {
 		return 'spam';
 	}
 
-	$comment_content = implode( ' ', $commentdata );
+	$comment_content = implode( ' ', array(
+		$commentdata['comment_author'],
+		$commentdata['comment_author_email'],
+		$commentdata['comment_author_url'],
+		$commentdata['comment_content'],
+	));
 	$comment_content = mb_strtolower( $comment_content );
 
 	// There are a few words that can always be considered spam.
@@ -70,7 +75,7 @@ function get_comment_status( $approved, $commentdata ) {
 	}
 
 	// The comment contains at least 6 bare URLs.
-	if ( 6 <= count_raw_urls( $comment_content ) ) {
+	if ( 6 <= \SSSS\Common\count_raw_urls( $comment_content ) ) {
 		return 'spam';
 	}
 
@@ -129,28 +134,4 @@ function ends_in_urls( $comment_content ) {
 	}
 
 	return false;
-}
-
-/**
- * Count the number of bare URLs used in content with no markup surrounding
- * them to indicate that context is given.
- *
- * @param string $comment_content The comment content.
- * @return int The number of raw URLs, with no markup.
- */
-function count_raw_urls( $comment_content ) {
-
-	// Break apart content into an array on any whitespace.
-	$contents = preg_split('/\s+/', $comment_content, -1, PREG_SPLIT_NO_EMPTY);
-
-	$urls = 0;
-
-	// Count how many lines at the end of content start with http.
-	while ( $content = array_pop( $contents ) ) {
-		if ( 0 === mb_strpos( $content, 'http' ) ) {
-			$urls++;
-		}
-	}
-
-	return $urls;
 }
