@@ -24,6 +24,8 @@ function get_spam_word_list() {
 		'anabolic steroids',
 		'prednisone',
 		'sildenafil',
+		'drug prices',
+		'online pharmacy',
 
 		// Crypto, not cryptography.
 		'mining crypto',
