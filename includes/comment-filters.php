@@ -52,7 +52,12 @@ function get_comment_status( $approved, $commentdata ) {
 		return 'spam';
 	}
 
-	$comment_content = implode( ' ', $commentdata );
+	$comment_content = implode( ' ', array(
+		$commentdata['comment_author'],
+		$commentdata['comment_author_email'],
+		$commentdata['comment_author_url'],
+		$commentdata['comment_content'],
+	));
 	$comment_content = mb_strtolower( $comment_content );
 
 	// There are a few words that can always be considered spam.
