@@ -92,7 +92,7 @@ function get_comment_status( $approved, $commentdata ) {
 function ends_in_urls( $comment_content ) {
 
 	// Only check the first 500 characters.
-	$comment_content = substr( $comment_content, 0, 500 );
+	$comment_content = substr( $comment_content, -500 );
 
 	// Break apart content into an array on any whitespace.
 	$contents = preg_split('/\s+/', $comment_content, -1, PREG_SPLIT_NO_EMPTY);
