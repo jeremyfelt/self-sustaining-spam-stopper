@@ -22,6 +22,8 @@ function get_spam_word_list() {
 		'butalbital',
 		'diflucan',
 		'anabolic steroids',
+		'prednisone',
+		'sildenafil',
 
 		// Crypto, not cryptography.
 		'mining crypto',
