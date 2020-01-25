@@ -127,6 +127,7 @@ function get_spam_word_list() {
 		'заработке',   // income
 		'развлекушки', // fun
 		'молодая',     // young
+		'медицинские', // medical
 
 		// Russian forums?
 		'.ru/member',
