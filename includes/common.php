@@ -26,6 +26,14 @@ function get_spam_word_list() {
 		'sildenafil',
 		'drug prices',
 		'online pharmacy',
+		'arimidex',
+		'ventolin',
+		'tadalafil',
+
+		// Vaping!
+		'e-liquid',
+		'eliquid',
+		'cbdoil',
 
 		// Crypto, not cryptography.
 		'mining crypto',
@@ -106,6 +114,11 @@ function get_spam_word_list() {
 		'mystrikingly.com',
 		'dvddiscountshop.com',
 		'vip-voyeur.com',
+		'allvapebrands.com',
+		'allvapestores.com',
+		'supremesearch.net',
+		'cbdlifemag.com',
+		'biblefreedom.com',
 
 		// Where do they come up with these?
 		'hairstylesvip',
