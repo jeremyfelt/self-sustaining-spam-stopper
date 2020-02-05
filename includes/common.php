@@ -125,6 +125,7 @@ function get_spam_word_list() {
 		'supremesearch.net',
 		'cbdlifemag.com',
 		'biblefreedom.com',
+		'creativebeartech.com',
 
 		// Where do they come up with these?
 		'hairstylesvip',
