@@ -25,10 +25,16 @@ function get_spam_word_list() {
 		'prednisone',
 		'sildenafil',
 		'drug prices',
+		'buy pharmacy',
 		'online pharmacy',
 		'arimidex',
 		'ventolin',
 		'tadalafil',
+		'propecia',
+		'metformin',
+		'levitra',
+		'lisinopril',
+		'albuterol',
 
 		// Vaping!
 		'e-liquid',
@@ -119,6 +125,7 @@ function get_spam_word_list() {
 		'supremesearch.net',
 		'cbdlifemag.com',
 		'biblefreedom.com',
+		'creativebeartech.com',
 
 		// Where do they come up with these?
 		'hairstylesvip',
