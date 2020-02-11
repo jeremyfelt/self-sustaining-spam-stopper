@@ -84,6 +84,11 @@ function get_comment_status( $approved, $commentdata ) {
 		return 'spam';
 	}
 
+	// The comment is one that has been seen time and time again.
+	if ( \SSSS\Common\matches_comment_hash( $commentdata['comment_content'] ) ) {
+		return 'spam';
+	}
+
 	return $approved;
 }
 
