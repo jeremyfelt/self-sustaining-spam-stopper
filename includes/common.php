@@ -35,6 +35,12 @@ function get_spam_word_list() {
 		'levitra',
 		'lisinopril',
 		'albuterol',
+		'allopurinol',
+		'atarax',
+		'synthroid',
+		'clomid',
+		'bactrim',
+		'amoxiciline',
 
 		// Vaping!
 		'e-liquid',
