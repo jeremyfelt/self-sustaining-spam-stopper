@@ -20,4 +20,10 @@ class CommentFiltersTest extends WP_UnitTestCase {
 
 		$this->assertTrue( \SSSS\CommentFilters\ends_in_urls( $comment_text ) );
 	}
+
+	public function test_comment_text_matches_hash() {
+		$comment_text = file_get_contents( ( __DIR__ . '/spam-comments/matches-hash.txt' ) );
+
+		$this->assertTrue( \SSSS\Common\matches_comment_hash( $comment_text ) );
+	}
 }

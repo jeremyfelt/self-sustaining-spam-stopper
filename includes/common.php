@@ -165,6 +165,18 @@ function get_spam_word_list() {
 }
 
 /**
+ * Provide a list of MD5 hashes for previously flagged spam content.
+ *
+ * @return array A list of hashes.
+ */
+function get_spam_hash_list() {
+	return array(
+		'1060217a23ba44f83a41d409688af505', // hermit crab
+		'fed35afde5eccc1ed028a6583f34cb2c', // is anyone else having problems with the pictures
+	);
+}
+
+/**
  * Determine if content contains a word or string classifed as
  * spammy.
  *
@@ -197,6 +209,24 @@ function contains_spam_word( $content ) {
  */
 function contains_mg( $text ) {
 	if ( 1 === preg_match( '/(\d+\s?mg)/', $text ) ) {
+		return true;
+	}
+
+	return false;
+}
+
+/**
+ * Determine if the comment text, when stripped of whitespace, matches
+ * a previously recorded MD5 hash of a spam comment.
+ *
+ * @param string $content The comment text.
+ * @return bool True if spammy. False if not.
+ */
+function matches_comment_hash( $content ) {
+	$content = preg_replace( '/\s+/', '', $content );
+	$content = md5( $content );
+
+	if ( in_array( $content, get_spam_hash_list(), true ) ) {
 		return true;
 	}
 
