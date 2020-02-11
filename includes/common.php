@@ -111,6 +111,8 @@ function get_spam_word_list() {
 		// Gambling!
 		'online sports betting',
 		'online casino',
+		'yesbet88',
+		'88bet',
 
 		// Uninteresting.
 		'bеst 100 freе',
@@ -132,6 +134,11 @@ function get_spam_word_list() {
 		'cbdlifemag.com',
 		'biblefreedom.com',
 		'creativebeartech.com',
+		'roulettekr.com',
+		'plugmycode.com',
+		'newproxylists.com',
+		'4gproxies.net',
+		'agahidan.ir',
 
 		// Where do they come up with these?
 		'hairstylesvip',
