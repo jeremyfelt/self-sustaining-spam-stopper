@@ -16,31 +16,9 @@ namespace SSSS\Common;
 function get_spam_word_list() {
 	return array(
 		// Drugs, pharmaceutical
-		'viagra',
-		'cialis',
-		'albendazole',
-		'butalbital',
-		'diflucan',
-		'anabolic steroids',
-		'prednisone',
-		'sildenafil',
 		'drug prices',
 		'buy pharmacy',
 		'online pharmacy',
-		'arimidex',
-		'ventolin',
-		'tadalafil',
-		'propecia',
-		'metformin',
-		'levitra',
-		'lisinopril',
-		'albuterol',
-		'allopurinol',
-		'atarax',
-		'synthroid',
-		'clomid',
-		'bactrim',
-		'amoxiciline',
 
 		// Vaping!
 		'e-liquid',
@@ -116,6 +94,14 @@ function get_spam_word_list() {
 
 		// Uninteresting.
 		'bеst 100 freе',
+		'affiliatelab',
+		'affiliate marketing',
+
+		// Air quality.
+		'iqair',
+
+		// Some email address partials.
+		'davidduke', // No time for that.
 
 		// Some URLs.
 		'sellaccs.net',      // Selling "aged" Twitter accounts.
@@ -139,6 +125,17 @@ function get_spam_word_list() {
 		'newproxylists.com',
 		'4gproxies.net',
 		'agahidan.ir',
+		'networkcity.info',
+		'dreamproxies.com',
+		'proxyti.com',
+		'studybay.com',
+		'edvesting.com',
+		'gotwebsite1.com',
+
+		// Don't hide your links.
+		'bit.ly',
+		'ow.ly',
+		'tinyurl.com',
 
 		// Where do they come up with these?
 		'hairstylesvip',
@@ -150,6 +147,10 @@ function get_spam_word_list() {
 		// S E Oh no.
 		'check here for the best seo services',
 		'seowebsitetrafficnet',
+		'seo-services',
+
+		// Some spam is self identifying.
+		'you have a spam problem',
 
 		// Russian
 		'казино',      // casino
@@ -161,6 +162,8 @@ function get_spam_word_list() {
 		'развлекушки', // fun
 		'молодая',     // young
 		'медицинские', // medical
+		'водопады',    // don't go chasing decorative waterfalls.
+		'удобрения',   // fertilizers
 
 		// Russian forums?
 		'.ru/member',

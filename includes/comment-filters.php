@@ -52,9 +52,18 @@ function get_comment_status( $approved, $commentdata ) {
 		return 'spam';
 	}
 
+	$comment_author_email_data = explode( '@', $commentdata['comment_author_email'] );
+	$comment_author_email      = $commentdata['comment_author_email']; // Store the original value.
+
+	if ( 2 === count( $comment_author_email_data ) ) {
+
+		// Rebuild the email without periods in the first half.
+		$comment_author_email = str_replace( '.', '', $comment_author_email_data[0] ) . '@' . $comment_author_email_data[1];
+	}
+
 	$comment_content = implode( ' ', array(
 		$commentdata['comment_author'],
-		$commentdata['comment_author_email'],
+		$comment_author_email,
 		$commentdata['comment_author_url'],
 		$commentdata['comment_content'],
 	));
@@ -63,7 +72,15 @@ function get_comment_status( $approved, $commentdata ) {
 	// There are a few words that can always be considered spam.
 	foreach ( \SSSS\Common\get_spam_word_list() as $word ) {
 
-		// Anything containing a blacklisted word is marked as spam.
+		// Anything containing a blocklisted word is marked as spam.
+		if ( false !== strpos( $comment_content, $word ) ) {
+			return 'spam';
+		}
+	}
+
+	foreach ( \SSSS\Data\get_drug_names() as $word ) {
+
+		// Anything containing a drug name is spam.
 		if ( false !== strpos( $comment_content, $word ) ) {
 			return 'spam';
 		}
