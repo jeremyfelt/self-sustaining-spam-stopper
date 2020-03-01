@@ -35,3 +35,4 @@ if ( version_compare( PHP_VERSION, '5.6', '<' ) ) {
 require_once __DIR__ . '/includes/common.php';
 require_once __DIR__ . '/includes/comment-filters.php';
 require_once __DIR__ . '/includes/contact-form-7-filters.php';
+require_once __DIR__ . '/includes/data/drug-names.php';

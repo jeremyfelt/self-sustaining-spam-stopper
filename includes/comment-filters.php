@@ -63,7 +63,15 @@ function get_comment_status( $approved, $commentdata ) {
 	// There are a few words that can always be considered spam.
 	foreach ( \SSSS\Common\get_spam_word_list() as $word ) {
 
-		// Anything containing a blacklisted word is marked as spam.
+		// Anything containing a blocklisted word is marked as spam.
+		if ( false !== strpos( $comment_content, $word ) ) {
+			return 'spam';
+		}
+	}
+
+	foreach ( \SSSS\Data\get_drug_names() as $word ) {
+
+		// Anything containing a drug name is spam.
 		if ( false !== strpos( $comment_content, $word ) ) {
 			return 'spam';
 		}
