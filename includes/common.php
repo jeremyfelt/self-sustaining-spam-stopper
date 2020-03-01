@@ -16,31 +16,9 @@ namespace SSSS\Common;
 function get_spam_word_list() {
 	return array(
 		// Drugs, pharmaceutical
-		'viagra',
-		'cialis',
-		'albendazole',
-		'butalbital',
-		'diflucan',
-		'anabolic steroids',
-		'prednisone',
-		'sildenafil',
 		'drug prices',
 		'buy pharmacy',
 		'online pharmacy',
-		'arimidex',
-		'ventolin',
-		'tadalafil',
-		'propecia',
-		'metformin',
-		'levitra',
-		'lisinopril',
-		'albuterol',
-		'allopurinol',
-		'atarax',
-		'synthroid',
-		'clomid',
-		'bactrim',
-		'amoxiciline',
 
 		// Vaping!
 		'e-liquid',
