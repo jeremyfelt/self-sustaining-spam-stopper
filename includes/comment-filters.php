@@ -52,9 +52,18 @@ function get_comment_status( $approved, $commentdata ) {
 		return 'spam';
 	}
 
+	$comment_author_email_data = explode( '@', $commentdata['comment_author_email'] );
+	$comment_author_email      = $commentdata['comment_author_email']; // Store the original value.
+
+	if ( 2 === count( $comment_author_email_data ) ) {
+
+		// Rebuild the email without periods in the first half.
+		$comment_author_email = str_replace( '.', '', $comment_author_email_data[0] ) . '@' . $comment_author_email_data[1];
+	}
+
 	$comment_content = implode( ' ', array(
 		$commentdata['comment_author'],
-		$commentdata['comment_author_email'],
+		$comment_author_email,
 		$commentdata['comment_author_url'],
 		$commentdata['comment_content'],
 	));

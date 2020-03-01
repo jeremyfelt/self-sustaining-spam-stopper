@@ -100,6 +100,9 @@ function get_spam_word_list() {
 		// Air quality.
 		'iqair',
 
+		// Some email address partials.
+		'davidduke', // No time for that.
+
 		// Some URLs.
 		'sellaccs.net',      // Selling "aged" Twitter accounts.
 		'voda-da.by',        // A bunch of cryllic characters and URLs.
