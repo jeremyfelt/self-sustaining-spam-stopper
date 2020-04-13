@@ -47,6 +47,8 @@ function get_spam_word_list() {
 		// Was I targetted by wig spam because I'm bald?
 		'cheap wigs',
 
+		'parbriz', // I don't get it, but there's a lot of "windscreen" spam.
+
 		// Of course...
 		'hardcore galleries',
 		'hardcore gallery',
