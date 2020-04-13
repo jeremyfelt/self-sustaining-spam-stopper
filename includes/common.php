@@ -19,11 +19,14 @@ function get_spam_word_list() {
 		'drug prices',
 		'buy pharmacy',
 		'online pharmacy',
+		'pharmacokinetic',
+		'pharmacodynamic',
 
 		// Vaping!
 		'e-liquid',
 		'eliquid',
 		'cbdoil',
+		'royalcbd',
 
 		// Crypto, not cryptography.
 		'mining crypto',
@@ -35,6 +38,7 @@ function get_spam_word_list() {
 		'the false prophet',
 		'number of the beast',
 		'mark of the beast',
+		'holyawakening',
 
 		// Maybe take this out if your site is about dating?
 		'casual dating site',
@@ -46,6 +50,8 @@ function get_spam_word_list() {
 
 		// Was I targetted by wig spam because I'm bald?
 		'cheap wigs',
+
+		'parbriz', // I don't get it, but there's a lot of "windscreen" spam.
 
 		// Of course...
 		'hardcore galleries',
@@ -60,6 +66,8 @@ function get_spam_word_list() {
 		' sex online', // Add a space just in case someone is talking about Sussex?
 		' sex toy',
 		' sex shop',
+		' sex doll',
+		' sex tape',
 		'hot photo galleries',
 		'hot photo gallery',
 		'hot galleries',
@@ -131,6 +139,11 @@ function get_spam_word_list() {
 		'studybay.com',
 		'edvesting.com',
 		'gotwebsite1.com',
+		'qwertty.net',
+		'bk.ru',
+		'hinditool.com',
+		'onlinecasinos.co',
+		'hosting4u.com',
 
 		// Don't hide your links.
 		'bit.ly',
@@ -143,6 +156,7 @@ function get_spam_word_list() {
 		'hairstylescool',
 
 		'SaveTheOA', // This was a heavy spam campaign for a while.
+		'bobbyupdax', // Frequent non-real commenter.
 
 		// S E Oh no.
 		'check here for the best seo services',
@@ -170,7 +184,9 @@ function get_spam_word_list() {
 		'.ru/forum',
 		'.ru/user',
 		'.ru/cms',
-		'.ru/blog.php',
+		'.ru/blog',
+		'.ru/bitrix',
+		'.ru/link',
 	);
 }
 
