@@ -1,0 +1,107 @@
+<?php
+
+namespace SSSS\CommentInvalidation;
+
+add_action( 'comment_form_top', __NAMESPACE__ . '\add_comment_fields' );
+add_filter( 'pre_comment_approved', __NAMESPACE__ . '\get_comment_status', 15, 2 );
+add_action( 'comment_post', __NAMESPACE__ . '\log_invalid_reasons', 15, 2 );
+
+/**
+ * Return the message expected in the comment validator input box.
+ */
+function get_valid_message() {
+	return 'Hey. Ignore me while I try to mess with bots. Thanks for commenting!';
+}
+
+/**
+ * Add comment fields in an attempt to mess with bot traffic.
+ */
+function add_comment_fields() {
+	?>
+	<input name="extremely_important" type="text" style="display:none;" value="<?php echo esc_attr( get_valid_message() ); ?>" />
+	<input id="extremely-empty" name="extremely_empty" type="text" style="display: none;" value="This should arrive empty to get a perfect score!" />
+	<script type="text/Javascript">
+		{
+			// Clear the input that we expect to be empty when the comment is submitted, which
+			// I hope takes actual people longer than 1.5 seconds. If not, then uh... think
+			// before you type just a tiny bit more?
+			setTimeout( function() {
+				document.getElementById( 'extremely-empty' ).setAttribute( 'value', '' );
+			}, 1500 );
+		}
+	</script>
+	<?php
+}
+
+/**
+ * Determine if a comment submission is spam.
+ *
+ * @param int|string $approved    1 if approved. 0 if pending. spam if spam.
+ * @param array      $commentdata {
+ *     Comment data.
+ *
+ *     @type string $comment_author       The name of the comment author.
+ *     @type string $comment_author_email The comment author email address.
+ *     @type string $comment_author_url   The comment author URL.
+ *     @type string $comment_content      The content of the comment.
+ *     @type string $comment_date         The date the comment was submitted. Default is the current time.
+ *     @type string $comment_date_gmt     The date the comment was submitted in the GMT timezone.
+ *                                        Default is `$comment_date` in the GMT timezone.
+ *     @type int    $comment_parent       The ID of this comment's parent, if any. Default 0.
+ *     @type int    $comment_post_ID      The ID of the post that relates to the comment.
+ *     @type int    $user_id              The ID of the user who submitted the comment. Default 0.
+ *     @type int    $user_ID              Kept for backward-compatibility. Use `$user_id` instead.
+ *     @type string $comment_agent        Comment author user agent. Default is the value of 'HTTP_USER_AGENT'
+ *                                        in the `$_SERVER` superglobal sent in the original request.
+ *     @type string $comment_author_IP    Comment author IP address in IPv4 format. Default is the value of
+ *                                        'REMOTE_ADDR' in the `$_SERVER` superglobal sent in the original request.
+ * }
+ */
+function get_comment_status( $approved, $commentdata ) {
+	if ( 'spam' === $approved ) {
+		return $approved;
+	}
+
+	if ( is_user_logged_in() ) {
+		return $approved;
+	}
+
+	if ( ! isset( $_POST['extremely_empty'] ) || ! isset( $_POST['extremely_important'] ) ) {
+		return 'spam';
+	}
+
+	if ( get_valid_message() !== $_POST['extremely_important'] ) {
+		return 'spam';
+	}
+
+	if ( '' !== $_POST['extremely_empty'] ) {
+		return 'spam';
+	}
+
+	return $approved;
+}
+
+/**
+ * Capture information about invalid commments to determine how the bot
+ * reacted to our tricks.
+ *
+ * @param int $comment_id  The ID of the comment.
+ * @param string $approved Whether it was marked as spam before.
+ */
+function log_invalid_reasons( $comment_id, $approved ) {
+	if ( 'spam' !== $approved ) {
+		return;
+	}
+
+	if ( ! isset( $_POST['extremely_empty'] ) || ! isset( $_POST['extremely_important'] ) ) {
+		update_comment_meta( $comment_id, '_ssss_missing_fields', 1 );
+	}
+
+	if ( get_valid_message() !== $_POST['extremely_important'] ) {
+		update_comment_meta( $comment_id, '_ssss_extremely_important_value', sanitize_text_field( $_POST['extremely_important'] ) );
+	}
+
+	if ( '' !== $_POST['extremely_empty'] ) {
+		update_comment_meta( $comment_id, '_ssss_extremely_empty_value', sanitize_text_field( $_POST['extremely_empty'] ) );
+	}
+}
