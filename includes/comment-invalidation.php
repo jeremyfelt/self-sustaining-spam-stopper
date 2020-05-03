@@ -5,6 +5,8 @@ namespace SSSS\CommentInvalidation;
 add_action( 'comment_form_top', __NAMESPACE__ . '\add_comment_fields' );
 add_filter( 'pre_comment_approved', __NAMESPACE__ . '\get_comment_status', 15, 2 );
 add_action( 'comment_post', __NAMESPACE__ . '\log_invalid_reasons', 15, 2 );
+add_filter( 'manage_edit-comments_columns', __NAMESPACE__ . '\add_list_table_columns' );
+add_action( 'manage_comments_custom_column', __NAMESPACE__ . '\populate_list_table_columns', 10, 2 );
 
 /**
  * Return the message expected in the comment validator input box.
@@ -66,6 +68,11 @@ function get_comment_status( $approved, $commentdata ) {
 		return $approved;
 	}
 
+	// Only check if this is a comment form submission.
+	if ( ! isset( $_POST['comment'] ) ) {
+		return $approved;
+	}
+
 	if ( ! isset( $_POST['extremely_empty'] ) || ! isset( $_POST['extremely_important'] ) ) {
 		return 'spam';
 	}
@@ -97,11 +104,42 @@ function log_invalid_reasons( $comment_id, $approved ) {
 		update_comment_meta( $comment_id, '_ssss_missing_fields', 1 );
 	}
 
-	if ( get_valid_message() !== $_POST['extremely_important'] ) {
+	if ( isset( $_POST['extremely_important'] ) && get_valid_message() !== $_POST['extremely_important'] ) {
 		update_comment_meta( $comment_id, '_ssss_extremely_important_value', sanitize_text_field( $_POST['extremely_important'] ) );
 	}
 
-	if ( '' !== $_POST['extremely_empty'] ) {
+	if ( isset( $_POST['extremely_empty'] ) && '' !== $_POST['extremely_empty'] ) {
 		update_comment_meta( $comment_id, '_ssss_extremely_empty_value', sanitize_text_field( $_POST['extremely_empty'] ) );
+	}
+}
+
+/**
+ * Add the contents of the empty and important inputs to the comment list table.
+ *
+ * @param array $columns The list of columns being output.
+ * @return array The modified list of columns.
+ */
+function add_list_table_columns( $columns ) {
+	$columns['ssss_empty'] = 'Empty Input';
+	$columns['ssss_important'] = 'Important Input';
+
+	return $columns;
+}
+
+/**
+ * Display the contents of the empty and important inputs in the comments list table.
+ *
+ * @param string $column     The column being output.
+ * @param int    $comment_id The comment ID.
+ */
+function populate_list_table_columns( $column, $comment_id ) {
+	if ( 'ssss_empty' === $column ) {
+		$empty_value = get_comment_meta( $comment_id, '_ssss_extremely_empty_value', true );
+		echo esc_html( $empty_value );
+	}
+
+	if ( 'ssss_important' === $column ) {
+		$important_value = get_comment_meta( $comment_id, '_ssss_extremely_important_value', true );
+		echo esc_html( $important_value );
 	}
 }
