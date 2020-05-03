@@ -8,7 +8,7 @@
 
 namespace SSSS\CommentFilters;
 
-add_filter( 'pre_comment_approved', __NAMESPACE__ . '\get_comment_status', 10, 2 );
+// add_filter( 'pre_comment_approved', __NAMESPACE__ . '\get_comment_status', 10, 2 );
 
 /**
  * Determine if a comment submission is spam.
