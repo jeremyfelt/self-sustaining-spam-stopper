@@ -120,6 +120,7 @@ function log_invalid_reasons( $comment_id, $approved ) {
  * @return array The modified list of columns.
  */
 function add_list_table_columns( $columns ) {
+	$columns['ssss_missing'] = 'Missing Inputs';
 	$columns['ssss_empty'] = 'Empty Input';
 	$columns['ssss_important'] = 'Important Input';
 
@@ -133,6 +134,11 @@ function add_list_table_columns( $columns ) {
  * @param int    $comment_id The comment ID.
  */
 function populate_list_table_columns( $column, $comment_id ) {
+	if ( 'ssss_missing' === $column ) {
+		$missing = get_comment_meta( $comment_id, '_ssss_missing_fields', true );
+		echo absint( $missing );
+	}
+
 	if ( 'ssss_empty' === $column ) {
 		$empty_value = get_comment_meta( $comment_id, '_ssss_extremely_empty_value', true );
 		echo esc_html( $empty_value );
