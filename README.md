@@ -1,5 +1,5 @@
 # Self-Sustaining Spam Stopper #
-**Contributors:** [jeremyfelt](https://profiles.wordpress.org/jeremyfelt)  
+**Contributors:** jeremyfelt  
 **Tags:** comments, spam  
 **Requires at least:** 5.2  
 **Tested up to:** 5.2.2  
