@@ -1,30 +1,32 @@
-name: CI
+name: Deployment
 
 on:
   push:
-    branches:
-      - develop
+    branches: [ develop ]
 
 jobs:
-  build:
-
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v1
-    - name: Install Node.js
-      uses: actions/setup-node@v1
-      with:
-        node-version: '10.x'
+
+    - name: Add SSH Key
+      run: |
+        mkdir -p ${HOME}/.ssh
+        echo "${{secrets.SERVER_SSH_KEY}}" > ${HOME}/.ssh/id_rsa
+        chmod 700 ${HOME}/.ssh
+        chmod 600 ${HOME}/.ssh/*
+        eval `ssh-agent -s`
+        ssh-add ${HOME}/.ssh/id_rsa
+
     - name: Deploy to jeremyfelt.com
-      uses: easingthemes/ssh-deploy@v2.0.7
-      env:
-          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
-          ARGS: "-rltgoDzvO --exclude=.git --exclude=.gitignore --exclude=.github --exclude=node_modules --exclude=vendor --delete"
-          SOURCE: "./"
-          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-          REMOTE_USER: ${{ secrets.REMOTE_USER }}
-          TARGET: ${{ secrets.REMOTE_TARGET }}
+      run: |
+        rsync -chav --delete \
+        -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" \
+        --exclude=.git --exclude=.gitignore --exclude=.github --exclude=node_modules --exclude=vendor \
+        ./ ${{secrets.REMOTE_USER}}@${{secrets.REMOTE_HOST}}:${{secrets.REMOTE_TARGET}}
+
     - name: Deploy to happyprime.co
       uses: easingthemes/ssh-deploy@v2.0.7
       env:
