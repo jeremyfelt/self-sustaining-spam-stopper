@@ -14,7 +14,7 @@ jobs:
     - name: Add SSH Key
       run: |
         mkdir -p ${HOME}/.ssh
-        echo "${{secrets.SERVER_SSH_KEY}}" > ${HOME}/.ssh/id_rsa
+        echo "${{secrets.SERVER_J_SSH_KEY}}" > ${HOME}/.ssh/id_rsa
         chmod 700 ${HOME}/.ssh
         chmod 600 ${HOME}/.ssh/*
         eval `ssh-agent -s`
@@ -25,14 +25,4 @@ jobs:
         rsync -chav --delete \
         -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" \
         --exclude=.git --exclude=.gitignore --exclude=.github --exclude=node_modules --exclude=vendor \
-        ./ ${{secrets.REMOTE_USER}}@${{secrets.REMOTE_HOST}}:${{secrets.REMOTE_TARGET}}
-
-    - name: Deploy to happyprime.co
-      uses: easingthemes/ssh-deploy@v2.0.7
-      env:
-          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
-          ARGS: "-rltgoDzvO --exclude=.git --exclude=.gitignore --exclude=.github --exclude=node_modules --exclude=vendor --delete"
-          SOURCE: "./"
-          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-          REMOTE_USER: ${{ secrets.REMOTE_USER }}
-          TARGET: ${{ secrets.REMOTE_TARGET_TWO }}
+        ./ ${{secrets.REMOTE_J_USER}}@${{secrets.REMOTE_HOST}}:${{secrets.REMOTE_TARGET}}
