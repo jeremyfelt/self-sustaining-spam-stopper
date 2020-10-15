@@ -11,7 +11,7 @@
  * Requires at least: 5.4
  * Requires PHP:      5.6
  *
- * @package         Self_Sustaining_Spam_Stopper
+ * @package Self_Sustaining_Spam_Stopper
  */
 
 // If this file is called directly, abort.
