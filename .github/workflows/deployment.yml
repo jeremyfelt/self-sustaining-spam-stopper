@@ -24,5 +24,5 @@ jobs:
       run: |
         rsync -chav --delete \
         -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" \
-        --exclude=.git --exclude=.gitignore --exclude=.github --exclude=node_modules --exclude=vendor \
+        --exclude-from=.distignore \
         ./ ${{secrets.REMOTE_J_USER}}@${{secrets.REMOTE_HOST}}:${{secrets.REMOTE_TARGET}}
