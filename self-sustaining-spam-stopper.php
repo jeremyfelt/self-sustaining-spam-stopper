@@ -7,7 +7,7 @@
  * Author URI:        https://jeremyfelt.com
  * Text Domain:       self-sustaining-spam-stopper
  * Domain Path:       /languages
- * Version:           0.1.0
+ * Version:           0.1.1
  * Requires at least: 5.4
  * Requires PHP:      5.6
  *
