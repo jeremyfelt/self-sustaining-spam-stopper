@@ -8,31 +8,12 @@ add_action( 'comment_post', __NAMESPACE__ . '\log_invalid_reasons', 15, 2 );
 add_filter( 'manage_edit-comments_columns', __NAMESPACE__ . '\add_list_table_columns' );
 add_action( 'manage_comments_custom_column', __NAMESPACE__ . '\populate_list_table_columns', 10, 2 );
 
-/**
- * Return the message expected in the comment validator input box.
- */
-function get_valid_message() {
-	return 'Hey. Ignore me while I try to mess with bots. Thanks for commenting!';
-}
 
 /**
  * Add comment fields in an attempt to mess with bot traffic.
  */
 function add_comment_fields() {
-	?>
-	<input name="extremely_important" type="text" style="display:none;" value="<?php echo esc_attr( get_valid_message() ); ?>" />
-	<input id="extremely-empty" name="extremely_empty" type="text" style="display: none;" value="This should arrive empty to get a perfect score!" />
-	<script type="text/Javascript">
-		{
-			// Clear the input that we expect to be empty when the comment is submitted, which
-			// I hope takes actual people longer than 1.5 seconds. If not, then uh... think
-			// before you type just a tiny bit more?
-			setTimeout( function() {
-				document.getElementById( 'extremely-empty' ).setAttribute( 'value', '' );
-			}, 1500 );
-		}
-	</script>
-	<?php
+	echo \SSSS\Common\get_input_markup();
 }
 
 /**
@@ -77,7 +58,7 @@ function get_comment_status( $approved, $commentdata ) {
 		return 'spam';
 	}
 
-	if ( get_valid_message() !== $_POST['extremely_important'] ) {
+	if ( \SSSS\Common\get_valid_message() !== $_POST['extremely_important'] ) {
 		return 'spam';
 	}
 
@@ -104,7 +85,7 @@ function log_invalid_reasons( $comment_id, $approved ) {
 		update_comment_meta( $comment_id, '_ssss_missing_fields', 1 );
 	}
 
-	if ( isset( $_POST['extremely_important'] ) && get_valid_message() !== $_POST['extremely_important'] ) {
+	if ( isset( $_POST['extremely_important'] ) && \SSSS\Common\get_valid_message() !== $_POST['extremely_important'] ) {
 		update_comment_meta( $comment_id, '_ssss_extremely_important_value', sanitize_text_field( $_POST['extremely_important'] ) );
 	}
 
