@@ -34,4 +34,6 @@ if ( version_compare( PHP_VERSION, '5.6', '<' ) ) {
 	return;
 }
 
+require_once __DIR__ . '/includes/common.php';
 require_once __DIR__ . '/includes/comment-invalidation.php';
+require_once __DIR__ . '/includes/form-invalidation.php';
