@@ -6,7 +6,7 @@ namespace SSSS\Common;
  * Return the message expected in the comment validator input box.
  */
 function get_valid_message() {
-	return 'Hey. Ignore me while I try to mess with bots. Thanks for commenting!';
+	return __( 'Hey. Ignore me while I try to mess with bots. Thanks for commenting!', 'self-sustaining-spam-stopper' );
 }
 
 /**
