@@ -101,9 +101,9 @@ function log_invalid_reasons( $comment_id, $approved ) {
  * @return array The modified list of columns.
  */
 function add_list_table_columns( $columns ) {
-	$columns['ssss_missing']   = 'Missing Inputs';
-	$columns['ssss_empty']     = 'Empty Input';
-	$columns['ssss_important'] = 'Important Input';
+	$columns['ssss_missing']   = __( 'Missing Inputs', 'self-sustaining-spam-stopper' );
+	$columns['ssss_empty']     = __( 'Empty Input', 'self-sustaining-spam-stopper' );
+	$columns['ssss_important'] = __( 'Important Input', 'self-sustaining-spam-stopper' );
 
 	return $columns;
 }
