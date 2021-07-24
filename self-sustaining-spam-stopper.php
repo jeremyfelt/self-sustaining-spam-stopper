@@ -6,7 +6,7 @@
  * Author:            Jeremy Felt
  * Author URI:        https://jeremyfelt.com
  * Version:           1.0.0
- * Requires at least: 5.4
+ * Requires at least: 5.6
  * Requires PHP:      5.6
  *
  * @package Self_Sustaining_Spam_Stopper
