@@ -5,8 +5,6 @@
  * Description:       Stop spam without relying on an external service.
  * Author:            Jeremy Felt
  * Author URI:        https://jeremyfelt.com
- * Text Domain:       self-sustaining-spam-stopper
- * Domain Path:       /languages
  * Version:           1.0.0
  * Requires at least: 5.4
  * Requires PHP:      5.6
