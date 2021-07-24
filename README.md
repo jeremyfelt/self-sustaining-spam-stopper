@@ -1,12 +1,4 @@
 # Self-Sustaining Spam Stopper #
-**Contributors:** [jeremyfelt](https://profiles.wordpress.org/jeremyfelt)  
-**Tags:** comments, spam  
-**Requires at least:** 5.5  
-**Tested up to:** 5.5  
-**Requires PHP:** 5.6  
-**Stable tag:** 1.0.0  
-**License:** GPLv2 or later  
-**License URI:** https://www.gnu.org/licenses/gpl-2.0.html  
 
 Stop spam without relying on an external service.
 
