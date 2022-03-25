@@ -24,6 +24,12 @@ To use this plugin with Contact Form 7, add `[ssss]` to any contact form to add 
 
 ## Changelog
 
+### 1.1.0
+
+* Start logging the elapsed time comment submissions.
+* Start logging elapsed time for CF7 form submissions.
+* Confirm WP 5.9 support.
+
 ### 1.0.1
 
 * Housekeeping, cruft removal.
