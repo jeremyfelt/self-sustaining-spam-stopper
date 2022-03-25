@@ -5,7 +5,7 @@
  * Description:       Stop spam without relying on an external service.
  * Author:            Jeremy Felt
  * Author URI:        https://jeremyfelt.com
- * Version:           1.0.1
+ * Version:           1.1.0
  * Requires at least: 5.6
  * Requires PHP:      5.6
  *

@@ -2,9 +2,9 @@
 Contributors: jeremyfelt
 Tags: comments, spam
 Requires at least: 5.6
-Tested up to: 5.8
+Tested up to: 5.9
 Requires PHP: 5.6
-Stable tag: 1.0.1
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,6 +31,12 @@ To use this plugin with Contact Form 7, add `[ssss]` to any contact form to add 
 * JavaScript is required for this to work.
 
 ## Changelog
+
+### 1.1.0
+
+* Start logging the elapsed time comment submissions.
+* Start logging elapsed time for CF7 form submissions.
+* Confirm WP 5.9 support.
 
 ### 1.0.1
 

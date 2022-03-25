@@ -5,6 +5,7 @@ namespace SSSS\CommentInvalidation;
 add_action( 'comment_form_top', __NAMESPACE__ . '\add_comment_fields' );
 add_filter( 'pre_comment_approved', __NAMESPACE__ . '\get_comment_status', 15, 2 );
 add_action( 'comment_post', __NAMESPACE__ . '\log_invalid_reasons', 15, 2 );
+add_action( 'comment_post', __NAMESPACE__ . '\log_valid_reasons', 16, 2 );
 add_filter( 'manage_edit-comments_columns', __NAMESPACE__ . '\add_list_table_columns' );
 add_action( 'manage_comments_custom_column', __NAMESPACE__ . '\populate_list_table_columns', 10, 2 );
 
@@ -13,7 +14,7 @@ add_action( 'manage_comments_custom_column', __NAMESPACE__ . '\populate_list_tab
  * Add comment fields in an attempt to mess with bot traffic.
  */
 function add_comment_fields() {
-	echo \SSSS\Common\get_input_markup();
+	echo \SSSS\Common\get_input_markup(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 }
 
 /**
@@ -50,19 +51,19 @@ function get_comment_status( $approved, $commentdata ) {
 	}
 
 	// Only check if this is a comment form submission.
-	if ( ! isset( $_POST['comment'] ) ) {
+	if ( ! isset( $_POST['comment'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 		return $approved;
 	}
 
-	if ( ! isset( $_POST['extremely_empty'] ) || ! isset( $_POST['extremely_important'] ) ) {
+	if ( ! isset( $_POST['extremely_empty'] ) || ! isset( $_POST['extremely_important'] ) || ! isset( $_POST['ssss_form_loaded'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 		return 'spam';
 	}
 
-	if ( \SSSS\Common\get_valid_message() !== $_POST['extremely_important'] ) {
+	if ( \SSSS\Common\get_valid_message() !== $_POST['extremely_important'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 		return 'spam';
 	}
 
-	if ( '' !== $_POST['extremely_empty'] ) {
+	if ( '' !== $_POST['extremely_empty'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 		return 'spam';
 	}
 
@@ -81,16 +82,38 @@ function log_invalid_reasons( $comment_id, $approved ) {
 		return;
 	}
 
-	if ( ! isset( $_POST['extremely_empty'] ) || ! isset( $_POST['extremely_important'] ) ) {
+	if ( ! isset( $_POST['extremely_empty'] ) || ! isset( $_POST['extremely_important'] ) || ! isset( $_POST['ssss_form_loaded'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 		update_comment_meta( $comment_id, '_ssss_missing_fields', 1 );
 	}
 
-	if ( isset( $_POST['extremely_important'] ) && \SSSS\Common\get_valid_message() !== $_POST['extremely_important'] ) {
-		update_comment_meta( $comment_id, '_ssss_extremely_important_value', sanitize_text_field( $_POST['extremely_important'] ) );
+	if ( isset( $_POST['extremely_important'] ) && \SSSS\Common\get_valid_message() !== $_POST['extremely_important'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		update_comment_meta( $comment_id, '_ssss_extremely_important_value', sanitize_text_field( $_POST['extremely_important'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
 	}
 
-	if ( isset( $_POST['extremely_empty'] ) && '' !== $_POST['extremely_empty'] ) {
-		update_comment_meta( $comment_id, '_ssss_extremely_empty_value', sanitize_text_field( $_POST['extremely_empty'] ) );
+	if ( isset( $_POST['extremely_empty'] ) && '' !== $_POST['extremely_empty'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		update_comment_meta( $comment_id, '_ssss_extremely_empty_value', sanitize_text_field( $_POST['extremely_empty'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
+	}
+
+	if ( isset( $_POST['ssss_form_loaded'] ) && '' !== $_POST['ssss_form_loaded'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		update_comment_meta( $comment_id, '_ssss_form_loaded_value', sanitize_text_field( $_POST['ssss_form_loaded'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
+	}
+}
+
+/**
+ * Capture information about comments not caught as spam to help inform
+ * future tricks.
+ *
+ * @param int $comment_id  The ID of the comment.
+ * @param string $approved Whether it was marked as spam before.
+ */
+function log_valid_reasons( $comment_id, $approved ) {
+	if ( 'spam' === $approved ) {
+		return;
+	}
+
+	if ( isset( $_POST['ssss_form_loaded'] ) && '' !== $_POST['ssss_form_loaded'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		$time_difference = time() - (int) $_POST['ssss_form_loaded']; // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		update_comment_meta( $comment_id, '_ssss_form_time_elapsed', sanitize_text_field( $time_difference ) );
 	}
 }
 
@@ -104,6 +127,7 @@ function add_list_table_columns( $columns ) {
 	$columns['ssss_missing']   = __( 'Missing Inputs', 'self-sustaining-spam-stopper' );
 	$columns['ssss_empty']     = __( 'Empty Input', 'self-sustaining-spam-stopper' );
 	$columns['ssss_important'] = __( 'Important Input', 'self-sustaining-spam-stopper' );
+	$columns['ssss_elapsed']   = __( 'Time Elapsed', 'self-sustaining-spam-stopper' );
 
 	return $columns;
 }
@@ -128,5 +152,10 @@ function populate_list_table_columns( $column, $comment_id ) {
 	if ( 'ssss_important' === $column ) {
 		$important_value = get_comment_meta( $comment_id, '_ssss_extremely_important_value', true );
 		echo esc_html( $important_value );
+	}
+
+	if ( 'ssss_elapsed' === $column ) {
+		$elapsed = get_comment_meta( $comment_id, '_ssss_form_time_elapsed', true );
+		echo esc_html( $elapsed ) . esc_html__( ' seconds', 'self-sustaining-spam-stopper' );
 	}
 }

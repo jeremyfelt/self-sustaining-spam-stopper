@@ -17,6 +17,7 @@ function get_valid_message() {
 function get_input_markup() {
 	ob_start();
 	?>
+	<input name="ssss_form_loaded" type="text" style="display: none;" value="<?php echo esc_attr( time() ); ?>" />
 	<input name="extremely_important" type="text" style="display:none;" value="<?php echo esc_attr( get_valid_message() ); ?>" />
 	<input id="extremely-empty" name="extremely_empty" type="text" style="display: none;" value="This should arrive empty to get a perfect score!" />
 	<script type="text/Javascript">
