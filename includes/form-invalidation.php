@@ -68,22 +68,22 @@ function validate_ssss_tag( $spam, $submission ) {
 		return $spam;
 	}
 
-	if ( ! isset( $_POST['extremely_empty'] ) || ! isset( $_POST['extremely_important'] ) ) {
+	if ( ! isset( $_POST['extremely_empty'] ) || ! isset( $_POST['extremely_important'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 		return true;
 	}
 
-	if ( \SSSS\Common\get_valid_message() !== $_POST['extremely_important'] ) {
+	if ( \SSSS\Common\get_valid_message() !== $_POST['extremely_important'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 		return true;
 	}
 
-	if ( '' !== $_POST['extremely_empty'] ) {
+	if ( '' !== $_POST['extremely_empty'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 		return true;
 	}
 
-	if ( isset( $_POST['ssss_form_loaded'] ) && '' !== $_POST['ssss_form_loaded'] ) {
-		$time_difference = time() - (int) $_POST['ssss_form_loaded'];
+	if ( isset( $_POST['ssss_form_loaded'] ) && '' !== $_POST['ssss_form_loaded'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		$time_difference = time() - (int) $_POST['ssss_form_loaded']; // phpcs:ignore WordPress.Security.NonceVerification.Missing
 		update_post_meta( $submission->get_contact_form()->id(), '_ssss_form_time_elapsed', sanitize_text_field( $time_difference ) );
-	} elseif ( ! isset( $_POST['ssss_form_loaded'] ) || '' === $_POST['ssss_form_loaded'] ) {
+	} elseif ( ! isset( $_POST['ssss_form_loaded'] ) || '' === $_POST['ssss_form_loaded'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 		return true;
 	}
 
