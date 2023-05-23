@@ -2,7 +2,7 @@
 Contributors: jeremyfelt
 Tags: comments, spam
 Requires at least: 5.6
-Tested up to: 5.9
+Tested up to: 6.2
 Requires PHP: 5.6
 Stable tag: 1.1.0
 License: GPLv2 or later
@@ -24,7 +24,7 @@ In most cases, no configuration should be necessary when using this plugin to pr
 
 ### Contact Form 7
 
-To use this plugin with Contact Form 7, add `[ssss]` to any contact form to add spam checking by this plugin to the form.
+To use this plugin with Contact Form 7, add `[ssss ssss]` to any contact form to add spam checking by this plugin to the form.
 
 ### Caveats
 

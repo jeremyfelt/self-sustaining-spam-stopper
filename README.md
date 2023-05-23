@@ -16,7 +16,7 @@ In most cases, no configuration should be necessary when using this plugin to pr
 
 ### Contact Form 7
 
-To use this plugin with Contact Form 7, add `[ssss]` to any contact form to add spam checking by this plugin to the form.
+To use this plugin with Contact Form 7, add `[ssss ssss]` to any contact form to add spam checking by this plugin to the form.
 
 ### Caveats
 
