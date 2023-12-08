@@ -3,13 +3,20 @@
 namespace SSSS\Common;
 
 /**
- * Return the message expected in the comment validator input box.
+ * Get the pre-filled value of the "important" input.
+ *
+ * @return string The message expected in the "important" input.
  */
-function get_valid_message() {
+function get_valid_message(): string {
 	return __( 'Hey. Ignore me while I try to mess with bots. Thanks for commenting!', 'self-sustaining-spam-stopper' );
 }
 
-function get_empty_message() {
+/**
+ * Get the pre-filled value of the "empty" input.
+ *
+ * @return string The message expected in the "empty" input.
+ */
+function get_empty_message(): string {
 	return __( 'This should arrive empty to get a perfect score!', 'self-sustaining-spam-stopper' );
 }
 
@@ -18,7 +25,7 @@ function get_empty_message() {
  *
  * @return string HTML.
  */
-function get_input_markup() {
+function get_input_markup(): string {
 	ob_start();
 	?>
 	<input name="ssss_form_loaded" type="text" style="display: none;" value="<?php echo esc_attr( time() ); ?>" />
