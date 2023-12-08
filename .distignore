@@ -3,4 +3,9 @@
 .git
 .github
 .gitignore
+.phpcs.xml.dist
+composer.json
+composer.lock
+phpstan.neon.dist
 README.md
+vendor
