@@ -2,10 +2,11 @@
 
 namespace SSSS\CommentInvalidation;
 
+use SSSS\Common;
+
 add_action( 'comment_form_top', __NAMESPACE__ . '\add_comment_fields' );
 add_filter( 'pre_comment_approved', __NAMESPACE__ . '\get_comment_status', 15, 2 );
-add_action( 'comment_post', __NAMESPACE__ . '\log_invalid_reasons', 15, 2 );
-add_action( 'comment_post', __NAMESPACE__ . '\log_valid_reasons', 16, 2 );
+add_action( 'comment_post', __NAMESPACE__ . '\log_reasoning', 15 );
 add_filter( 'manage_edit-comments_columns', __NAMESPACE__ . '\add_list_table_columns' );
 add_action( 'manage_comments_custom_column', __NAMESPACE__ . '\populate_list_table_columns', 10, 2 );
 
@@ -55,66 +56,72 @@ function get_comment_status( $approved, $commentdata ) {
 		return $approved;
 	}
 
-	if ( ! isset( $_POST['extremely_empty'] ) || ! isset( $_POST['extremely_important'] ) || ! isset( $_POST['ssss_form_loaded'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
-		return 'spam';
-	}
-
-	if ( \SSSS\Common\get_valid_message() !== $_POST['extremely_important'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
-		return 'spam';
-	}
-
-	if ( '' !== $_POST['extremely_empty'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
-		return 'spam';
+	// Immediately trash obvious bots.
+	if ( in_array( get_spam_reason(), array( 'missing_inputs', 'mismatched_inputs', 'mismatched_empty' ), true ) ) {
+		return 'trash';
 	}
 
 	return $approved;
 }
 
 /**
- * Capture information about invalid commments to determine how the bot
- * reacted to our tricks.
+ * Determine why a comment should be marked as spam.
  *
- * @param int $comment_id  The ID of the comment.
- * @param string $approved Whether it was marked as spam before.
+ * @return string The reason for marking the comment as spam.
  */
-function log_invalid_reasons( $comment_id, $approved ) {
-	if ( 'spam' !== $approved ) {
-		return;
+function get_spam_reason(): string {
+	$extremely_empty     = isset( $_POST['extremely_empty'] ) ? $_POST['extremely_empty'] : false;
+	$extremely_important = isset( $_POST['extremely_important'] ) ? $_POST['extremely_important'] : false;
+	$form_loaded_time    = isset( $_POST['ssss_form_loaded'] ) ? $_POST['ssss_form_loaded'] : false;
+
+	// If no inputs are set, assume the comment was submitted by a bot.
+	if ( false === $extremely_empty && false === $extremely_important && false === $form_loaded_time ) {
+		return 'bot_missing_inputs';
 	}
 
-	if ( ! isset( $_POST['extremely_empty'] ) || ! isset( $_POST['extremely_important'] ) || ! isset( $_POST['ssss_form_loaded'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
-		update_comment_meta( $comment_id, '_ssss_missing_fields', 1 );
+	/**
+	 * If a comment is submitted from a browser that does not support JavaScript, then extremely_empty
+	 * and extremely_important will be set to default values.
+	 *
+	 * If extremely_empty is still the default and extremely_important is not the default, then we can
+	 * assume that the comment was submitted by a bot that supports JavaScript.
+	 */
+	if ( Common\get_empty_message() === $extremely_empty && Common\get_valid_message() !== $extremely_important ) {
+		return 'bot_confused_js';
 	}
 
-	if ( isset( $_POST['extremely_important'] ) && \SSSS\Common\get_valid_message() !== $_POST['extremely_important'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
-		update_comment_meta( $comment_id, '_ssss_extremely_important_value', sanitize_text_field( $_POST['extremely_important'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
+	/**
+	 * If extremely_empty is not the default nor empty, then it is not this plugin's JavaScript that
+	 * has manipulated the value. Assume the comment was submitted by a bot.
+	 */
+	if ( Common\get_empty_message() !== $extremely_empty && '' !== $extremely_empty ) {
+		return 'bot_mismatched_empty';
 	}
 
-	if ( isset( $_POST['extremely_empty'] ) && '' !== $_POST['extremely_empty'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
-		update_comment_meta( $comment_id, '_ssss_extremely_empty_value', sanitize_text_field( $_POST['extremely_empty'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
-	}
-
-	if ( isset( $_POST['ssss_form_loaded'] ) && '' !== $_POST['ssss_form_loaded'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
-		update_comment_meta( $comment_id, '_ssss_form_loaded_value', sanitize_text_field( $_POST['ssss_form_loaded'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
-	}
+	return '';
 }
 
 /**
- * Capture information about comments not caught as spam to help inform
- * future tricks.
+ * Capture information about invalid commments to determine how the bot
+ * reacted to our tricks.
  *
- * @param int $comment_id  The ID of the comment.
- * @param string $approved Whether it was marked as spam before.
+ * @param int $comment_id The ID of the comment.
  */
-function log_valid_reasons( $comment_id, $approved ) {
-	if ( 'spam' === $approved ) {
+function log_reasoning( $comment_id ): void {
+	// Only check if this is a comment form submission.
+	if ( ! isset( $_POST['comment'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 		return;
 	}
 
-	if ( isset( $_POST['ssss_form_loaded'] ) && '' !== $_POST['ssss_form_loaded'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
-		$time_difference = time() - (int) $_POST['ssss_form_loaded']; // phpcs:ignore WordPress.Security.NonceVerification.Missing
-		update_comment_meta( $comment_id, '_ssss_form_time_elapsed', sanitize_text_field( $time_difference ) );
-	}
+	$extremely_empty     = isset( $_POST['extremely_empty'] ) ? $_POST['extremely_empty'] : false;
+	$extremely_important = isset( $_POST['extremely_important'] ) ? $_POST['extremely_important'] : false;
+	$form_loaded_time    = isset( $_POST['ssss_form_loaded'] ) ? $_POST['ssss_form_loaded'] : false;
+	$reason			     = get_spam_reason();
+
+	update_comment_meta( $comment_id, '_ssss_extremely_important_value', sanitize_text_field( $extremely_important ) );
+	update_comment_meta( $comment_id, '_ssss_extremely_empty_value', sanitize_text_field( $extremely_empty ) );
+	update_comment_meta( $comment_id, '_ssss_form_loaded_value', sanitize_text_field( $form_loaded_time ) );
+	update_comment_meta( $comment_id, '_ssss_spam_reason', sanitize_text_field( $reason ) );
 }
 
 /**
@@ -124,10 +131,8 @@ function log_valid_reasons( $comment_id, $approved ) {
  * @return array The modified list of columns.
  */
 function add_list_table_columns( $columns ) {
-	$columns['ssss_missing']   = __( 'Missing Inputs', 'self-sustaining-spam-stopper' );
-	$columns['ssss_empty']     = __( 'Empty Input', 'self-sustaining-spam-stopper' );
-	$columns['ssss_important'] = __( 'Important Input', 'self-sustaining-spam-stopper' );
-	$columns['ssss_elapsed']   = __( 'Time Elapsed', 'self-sustaining-spam-stopper' );
+	$columns['ssss_reason']  = __( 'Reasoning', 'self-sustaining-spam-stopper' );
+	$columns['ssss_elapsed'] = __( 'Time Elapsed', 'self-sustaining-spam-stopper' );
 
 	return $columns;
 }
@@ -139,23 +144,25 @@ function add_list_table_columns( $columns ) {
  * @param int    $comment_id The comment ID.
  */
 function populate_list_table_columns( $column, $comment_id ) {
-	if ( 'ssss_missing' === $column ) {
-		$missing = get_comment_meta( $comment_id, '_ssss_missing_fields', true );
-		echo absint( $missing );
-	}
+	if ( 'ssss_reason' === $column ) {
+		$reason = get_comment_meta( $comment_id, '_ssss_spam_reason', true );
+		$reason = $reason ? $reason : 'none';
 
-	if ( 'ssss_empty' === $column ) {
-		$empty_value = get_comment_meta( $comment_id, '_ssss_extremely_empty_value', true );
-		echo esc_html( $empty_value );
-	}
-
-	if ( 'ssss_important' === $column ) {
-		$important_value = get_comment_meta( $comment_id, '_ssss_extremely_important_value', true );
-		echo esc_html( $important_value );
+		echo esc_html( $reason );
 	}
 
 	if ( 'ssss_elapsed' === $column ) {
-		$elapsed = get_comment_meta( $comment_id, '_ssss_form_time_elapsed', true );
+		$comment       = get_comment( $comment_id );
+		$submited_time = strtotime( $comment->comment_date_gmt );
+		$loaded_time   = get_comment_meta( $comment_id, '_ssss_form_loaded_value', true );
+
+		if ( ! $loaded_time ) {
+			$elapsed = get_comment_meta( $comment_id, '_ssss_form_time_elapsed', true );
+			$elapsed = $elapsed ? $elapsed : 0;
+		} else {
+			$elapsed = $submited_time - $loaded_time;
+		}
+
 		echo esc_html( $elapsed ) . esc_html__( ' seconds', 'self-sustaining-spam-stopper' );
 	}
 }

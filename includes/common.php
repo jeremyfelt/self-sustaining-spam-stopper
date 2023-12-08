@@ -9,6 +9,10 @@ function get_valid_message() {
 	return __( 'Hey. Ignore me while I try to mess with bots. Thanks for commenting!', 'self-sustaining-spam-stopper' );
 }
 
+function get_empty_message() {
+	return __( 'This should arrive empty to get a perfect score!', 'self-sustaining-spam-stopper' );
+}
+
 /**
  * Return the markup used to represent the hidden inputs that act as honey pots.
  *
@@ -19,7 +23,7 @@ function get_input_markup() {
 	?>
 	<input name="ssss_form_loaded" type="text" style="display: none;" value="<?php echo esc_attr( time() ); ?>" />
 	<input name="extremely_important" type="text" style="display:none;" value="<?php echo esc_attr( get_valid_message() ); ?>" />
-	<input id="extremely-empty" name="extremely_empty" type="text" style="display: none;" value="This should arrive empty to get a perfect score!" />
+	<input id="extremely-empty" name="extremely_empty" type="text" style="display: none;" value="<?php echo esc_attr( get_empty_message() ); ?>" />
 	<script type="text/Javascript">
 		{
 			// Clear the input that we expect to be empty when the comment is submitted, which
