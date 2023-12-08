@@ -62,7 +62,7 @@ function get_comment_status( $approved, $commentdata ) {
 	}
 
 	// Immediately trash obvious bots.
-	if ( in_array( get_spam_reason(), array( 'missing_inputs', 'mismatched_inputs', 'mismatched_empty' ), true ) ) {
+	if ( in_array( get_spam_reason(), array( 'bot_missing_inputs', 'bot_confused_js', 'bot_mismatched_empty' ), true ) ) {
 		return 'trash';
 	}
 
