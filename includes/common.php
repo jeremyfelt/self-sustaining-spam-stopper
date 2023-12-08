@@ -39,11 +39,11 @@ function get_input_markup(): string {
 	<script type="text/Javascript">
 		{
 			// Clear the input that we expect to be empty when the comment is submitted, which
-			// I hope takes actual people longer than 1.5 seconds. If not, then uh... think
+			// I hope takes actual people longer than 500 milliseconds. If not, then uh... think
 			// before you type just a tiny bit more?
 			setTimeout( function() {
 				document.getElementById( 'extremely-empty' ).setAttribute( 'value', '' );
-			}, 1500 );
+			}, 500 );
 		}
 	</script>
 	<?php
