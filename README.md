@@ -24,6 +24,11 @@ To use this plugin with Contact Form 7, add `[ssss ssss]` to any contact form to
 
 ## Changelog
 
+### 2.0.0
+
+* Change WordPress requirement to 6.3.
+* Change PHP requirement to 7.4 to match WordPress 6.3+.
+
 ### 1.1.0
 
 * Start logging the elapsed time comment submissions.

@@ -1,10 +1,10 @@
 === Self-Sustaining Spam Stopper ===
 Contributors: jeremyfelt
 Tags: comments, spam
-Requires at least: 5.6
-Tested up to: 6.2
-Requires PHP: 5.6
-Stable tag: 1.1.0
+Requires at least: 6.3
+Tested up to: 6.4
+Requires PHP: 7.4
+Stable tag: 2.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,6 +31,11 @@ To use this plugin with Contact Form 7, add `[ssss ssss]` to any contact form to
 * JavaScript is required for this to work.
 
 ## Changelog
+
+### 2.0.0
+
+* Change WordPress requirement to 6.3.
+* Change PHP requirement to 7.4 to match WordPress 6.3+.
 
 ### 1.1.0
 
