@@ -1,4 +1,9 @@
 <?php
+/**
+ * Common functions.
+ *
+ * @package self-sustaining-spam-stopper
+ */
 
 namespace SSSS\Common;
 

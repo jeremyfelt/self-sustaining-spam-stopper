@@ -1,4 +1,9 @@
 <?php
+/**
+ * Manage form invalidation.
+ *
+ * @package self-sustaining-spam-stopper
+ */
 
 namespace SSSS\FormInvalidation;
 

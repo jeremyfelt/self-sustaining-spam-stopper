@@ -1,4 +1,9 @@
 <?php
+/**
+ * Manage comment invalidation.
+ *
+ * @package self-sustaining-spam-stopper
+ */
 
 namespace SSSS\CommentInvalidation;
 
@@ -70,9 +75,9 @@ function get_comment_status( $approved, $commentdata ) {
  * @return string The reason for marking the comment as spam.
  */
 function get_spam_reason(): string {
-	$extremely_empty     = isset( $_POST['extremely_empty'] ) ? $_POST['extremely_empty'] : false;
-	$extremely_important = isset( $_POST['extremely_important'] ) ? $_POST['extremely_important'] : false;
-	$form_loaded_time    = isset( $_POST['ssss_form_loaded'] ) ? $_POST['ssss_form_loaded'] : false;
+	$extremely_empty     = isset( $_POST['extremely_empty'] ) ? $_POST['extremely_empty'] : false; // phpcs:ignore WordPress.Security.NonceVerification.Missing
+	$extremely_important = isset( $_POST['extremely_important'] ) ? $_POST['extremely_important'] : false; // phpcs:ignore WordPress.Security.NonceVerification.Missing
+	$form_loaded_time    = isset( $_POST['ssss_form_loaded'] ) ? $_POST['ssss_form_loaded'] : false; // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
 	// If no inputs are set, assume the comment was submitted by a bot.
 	if ( false === $extremely_empty && false === $extremely_important && false === $form_loaded_time ) {
@@ -113,10 +118,10 @@ function log_reasoning( $comment_id ): void {
 		return;
 	}
 
-	$extremely_empty     = isset( $_POST['extremely_empty'] ) ? $_POST['extremely_empty'] : false;
-	$extremely_important = isset( $_POST['extremely_important'] ) ? $_POST['extremely_important'] : false;
-	$form_loaded_time    = isset( $_POST['ssss_form_loaded'] ) ? $_POST['ssss_form_loaded'] : false;
-	$reason			     = get_spam_reason();
+	$extremely_empty     = isset( $_POST['extremely_empty'] ) ? $_POST['extremely_empty'] : false; // phpcs:ignore WordPress.Security.NonceVerification.Missing
+	$extremely_important = isset( $_POST['extremely_important'] ) ? $_POST['extremely_important'] : false; // phpcs:ignore WordPress.Security.NonceVerification.Missing
+	$form_loaded_time    = isset( $_POST['ssss_form_loaded'] ) ? $_POST['ssss_form_loaded'] : false; // phpcs:ignore WordPress.Security.NonceVerification.Missing
+	$reason              = get_spam_reason();
 
 	update_comment_meta( $comment_id, '_ssss_extremely_important_value', sanitize_text_field( $extremely_important ) );
 	update_comment_meta( $comment_id, '_ssss_extremely_empty_value', sanitize_text_field( $extremely_empty ) );
